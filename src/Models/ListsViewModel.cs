@@ -3,5 +3,5 @@ using System.Collections.Generic;
 
 namespace src.Models
 {
-    public class ListsViewModel : List<ListViewModel> { }
+    public class ListsViewModel : List<AList> { }
 }

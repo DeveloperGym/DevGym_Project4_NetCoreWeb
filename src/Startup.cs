@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using src.Models;
 
 namespace src
 {
@@ -29,6 +31,9 @@ namespace src
         {
             // Add framework services.
             services.AddMvc();
+
+            // Database services
+            services.AddDbContext<ListDbContext>(options => options.UseSqlite("Data Source=List.db"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +59,11 @@ namespace src
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            // Database
+            ListDbContext.Options = app.ApplicationServices.GetRequiredService<DbContextOptions<ListDbContext>>();
+            ListDbContext.EnsureCreated(app.ApplicationServices);
+            ListDbContext.DbInitialize(app.ApplicationServices);
         }
     }
 }

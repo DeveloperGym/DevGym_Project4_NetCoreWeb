@@ -16,7 +16,7 @@ namespace src.Controllers
 
         public IActionResult Show(int id)
         {
-            var model = new ListViewModel();
+            var model = new AList();
 
             model.Title = "test";
 
