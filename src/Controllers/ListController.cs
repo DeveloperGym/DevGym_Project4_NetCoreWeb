@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using src.Models;
 
 namespace src.Controllers
 {
@@ -8,7 +9,18 @@ namespace src.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            var model = new ListsViewModel();
+
+            return View(model);
+        }
+
+        public IActionResult Show(int id)
+        {
+            var model = new ListViewModel();
+
+            model.Title = "test";
+
+            return View(model);
         }
     }
 }
