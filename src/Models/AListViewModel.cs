@@ -63,8 +63,6 @@ namespace src.Models
             #region Properties
             public int ID { get; set; }
 
-            public int AListID { get; set; }
-
             [Required]
             [Display(Name="To Do")]
             [MinLength(2, ErrorMessage="You can think of at least 2 characters for the To Do!")]
@@ -80,7 +78,6 @@ namespace src.Models
                 return new AListItemViewModel()
                 {
                     ID = from.ID,
-                    AListID = from.AListID,
                     Description = from.Description,
                     Completed = from.Completed
                 };
@@ -91,7 +88,6 @@ namespace src.Models
                 return new AList.AListItem()
                 {
                     ID = from.ID,
-                    AListID = from.AListID,
                     Description = from.Description,
                     Completed = from.Completed
                 };

@@ -33,6 +33,7 @@ namespace src.Models
             for (int i=0; i<Items.Count; i++)
             {
                 Items[i].SortOrder = i;
+                Items[i].AListID = ID;
             }
         }
         #endregion

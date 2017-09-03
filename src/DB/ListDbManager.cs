@@ -7,6 +7,7 @@ namespace src.DB
 {
     public static class ListDbManager
     {
+        #region Single List Methods
         public static AList OneList(int id)
         {
             using (var context = new ListDbContext())
@@ -26,8 +27,14 @@ namespace src.DB
                 try
                 {
                     save.PreSave();
+
                     if (save.ID == 0) { context.Lists.Add(save); }
-                    else { context.Lists.Update(save); }
+                    else
+                    {
+                        context.Lists.Update(save);
+                        ClearListItems(save.ID);
+                    }
+
                     context.SaveChanges();
                     return true;
                 }
@@ -36,6 +43,18 @@ namespace src.DB
             return false;
         }
 
+        public static bool RemoveList(int id)
+        {
+            return false;
+        }
+
+        public static bool ClearListItems(int id)
+        {
+            return false;
+        }
+        #endregion
+
+        #region Multiple List Methods
         public static List<AList> AllLists()
         {
             using (var context = new ListDbContext())
@@ -51,5 +70,6 @@ namespace src.DB
                 return context.Lists.OrderByDescending(l => l.LastUpdated).Take(3).ToList();
             }
         }
+        #endregion
     }
 }
