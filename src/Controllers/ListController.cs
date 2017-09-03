@@ -49,5 +49,18 @@ namespace src.Controllers
             model.Message = "Item Count: " + model.Items.Count;
             return View(model);
         }
+
+        public IActionResult ToggleComplete(int id)
+        {
+            var OneListItem = ListDbManager.OneListItem(id);
+
+            if (OneListItem != null)
+            {
+                OneListItem.Completed = !OneListItem.Completed;
+                ListDbManager.SaveListItem(OneListItem);
+            }
+
+            return null;
+        }
     }
 }

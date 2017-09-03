@@ -1,8 +1,45 @@
 @model src.Models.AList
 @{
     ViewData["Title"] = "List: " + Model.Title;
+    string checkedDisplay = "";
 }
 <div class="container">
-    <h2>@Model.Title</h2>
+    <h2>@Model.Title (Done @Model.Completed / @Model.Total)</h2>
     <p><a href='@Url.Action("Edit", "List", new { id = Model.ID })'>Edit</a></p>
 </div>
+
+<div class="container">
+    <fieldset>
+        <span asp-validation-for="Title" class="text-danger"></span>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>To Do</th>
+                    <th>Completed</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i=0; i<Model.Items.Count; i++)
+                {
+                    if (Model.Items[i].Completed) { checkedDisplay = "checked=\"checked\""; }
+                    else { checkedDisplay = ""; }
+                    <tr id="row_@i">
+                        <td>@Html.DisplayFor(m => m.Items[i].Description)</td>
+                        <td><input type="checkbox" id="complete_@i" @checkedDisplay onclick="toggleComplete(@Model.Items[i].ID)" /></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </fieldset>
+</div>
+
+@section Scripts {
+<script>
+    function toggleComplete(listItemId) {
+        $.ajax({
+            url: "/List/ToggleComplete/"+listItemId,
+            type: "GET"
+        });
+    }
+</script>
+}

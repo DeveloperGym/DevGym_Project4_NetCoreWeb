@@ -44,6 +44,8 @@ namespace src.DB
 
         public static bool RemoveList(int id)
         {
+
+            // TODO: Implement this. Search online for EnitityFrameworkCore and delete object
             return false;
         }
 
@@ -53,11 +55,38 @@ namespace src.DB
             {
                 try
                 {
-                context.ListItems.RemoveRange(context.ListItems.Where(li => li.AListID == aListId));
-                context.SaveChanges();
-                return true;
+                    context.ListItems.RemoveRange(context.ListItems.Where(li => li.AListID == aListId));
+                    context.SaveChanges();
+                    return true;
                 }
                 catch{}
+            }
+            return false;
+        }
+
+        public static AList.AListItem OneListItem(int id)
+        {
+            using (var context = new ListDbContext())
+            {
+                var result = context.ListItems.FirstOrDefault(li => li.ID == id);
+
+                return result;
+            }
+        }
+
+        public static bool SaveListItem(AList.AListItem save)
+        {
+            using (var context = new ListDbContext())
+            {
+                try
+                {
+                    if (save.ID == 0) { context.ListItems.Add(save); }
+                    else { context.ListItems.Update(save); }
+
+                    context.SaveChanges();
+                    return true;
+                }
+                catch {}
             }
             return false;
         }
