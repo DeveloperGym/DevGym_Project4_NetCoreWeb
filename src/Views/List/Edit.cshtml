@@ -4,7 +4,7 @@
 }
 <div class="container">
     <h2>@ViewData["Title"]</h2>
-    <p>@Model.ErrorMessage</p>
+    <p>@Model.Message</p>
 </div>
 
 <div class="container">
@@ -17,6 +17,7 @@
                 <thead>
                     <tr>
                         <th>To Do</th>
+                        <th>Completed</th>
                         <th>X</th>
                     </tr>
                 </thead>
@@ -25,14 +26,16 @@
                     {
                         <tr id="row_@i">
                             <td>@Html.EditorFor(m => m.Items[i].Description) @Html.ValidationMessageFor(m => m.Items[i].Description)</td>
-                            <td><input type="button" onclick="removeAt(@i)" value="X" /></td>
+                            <td>@Html.EditorFor(m => m.Items[i].Completed)</td>
+                            <td><input id="removeAt_@i" type="button" onclick="removeAt(@i)" value="X" /></td>
                         </tr>
                     }
                 </tbody>
             </table>
         </fieldset>
+        <input type="button" onclick="newRow()" value="New Row" />
         <button type="submit">Save</button>
-        <button type="submit">Cancel</button>
+        <input type="button" value="Cancel" onclick="document.location.href = '@Url.Action("Show", "List", new { id = Model.ID })'" />
     </form>
 </div>
 
@@ -43,20 +46,33 @@
     function removeAt(index) {
         // Remove the indicated row
         $("#row_" + index).remove();
+        nextId--;
 
         // Renumber the other rows
         // Update the 100 to a larger number to support more items
         // Or find a better way to detect when you've reached the end
         for (i = (index+1); i < 100; i++) {
             if($("#row_" + i).length != 0) {
-                //$("#row_"+i).attr("id", "row_"+(i-1));
+                $("#row_"+i).attr("id", "row_"+(i-1));
+                
                 // Using chaining as suggested by: https://stackoverflow.com/a/2715287
-                $("#Items_"+i+"__Description").attr("id", "Items_"+(i-1)+"__Description").attr("name", "Items["+(i-1)+"].Description")
+                $("#Items_"+i+"__Description").attr("id", "Items_"+(i-1)+"__Description").attr("name", "Items["+(i-1)+"].Description");
+                $("#removeAt_"+i).attr("id", "removeAt_"+(i-1)).attr("onclick", "removeAt("+(i-1)+")");
             }
         }
+    }
 
-        // id: Items_0__Description
-        // name: Items[0].Description
+    function newRow() {
+        var row = '<tr id="row_#INDEX#">';
+        row += '<td><input class="text-box single-line" data-val="true" data-val-maxlength="That is a pretty long To Do don&#x27;t you think? (less than 100 characters please)" data-val-maxlength-max="100" data-val-minlength="You can think of at least 2 characters for the To Do!" data-val-minlength-min="2" data-val-required="The To Do field is required." id="Items_#INDEX#__Description" name="Items[#INDEX#].Description" type="text" value="" /> <span class="field-validation-valid" data-valmsg-for="Items[#INDEX#].Description" data-valmsg-replace="true"></span></td>';
+        row += '<td><input class="check-box" data-val="false" id="Items_#INDEX#__Completed" name="Items[#INDEX#].Completed" type="checkbox" value="true" /></td>';
+        row += '<td><input id="removeAt_#INDEX#" type="button" onclick="removeAt(#INDEX#)" value="X" /></td>';
+        row += '</tr>';
+        row = row.replace(/#INDEX#/g, nextId);
+
+        $("#row_"+(nextId-1)).after(row);
+
+        nextId++;
     }
 </script>
 }

@@ -6,6 +6,10 @@ namespace src.Models
 {
     public class AListViewModel
     {
+        #region Fields
+        private string _Message = null;
+        #endregion
+
         #region Properties
         public int ID { get; set; }
 
@@ -23,7 +27,15 @@ namespace src.Models
 
         public int Completed { get; set; }
 
-        public string ErrorMessage{ get; set; }
+        public string Message
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_Message)) { return "<br />"; }
+                return _Message;
+            }
+            set { _Message = value; }
+        }
         #endregion
 
         #region Construct / Destruct

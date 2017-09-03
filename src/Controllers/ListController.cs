@@ -29,7 +29,7 @@ namespace src.Controllers
             if (id > 0)
             {
                 model = ListDbManager.OneList(id);
-                model.ErrorMessage = "Item Count: "+model.Items.Count;
+                model.Message = "Item Count: "+model.Items.Count;
             }
 
             return View(model);
@@ -40,9 +40,13 @@ namespace src.Controllers
         {
             if (ModelState.IsValid)
             {
-                int a = model.ID;
+                AList toSave = model;
+                toSave.ID = id;
+                ListDbManager.SaveList(toSave);
+                return RedirectToAction("Show", new {id=id});
             }
 
+            model.Message = "Item Count: " + model.Items.Count;
             return View(model);
         }
     }

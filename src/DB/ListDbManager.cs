@@ -13,7 +13,7 @@ namespace src.DB
             using (var context = new ListDbContext())
             {
                 var result = context.Lists.FirstOrDefault(l => l.ID == id); // Main list info
-                result.Items = context.ListItems.Where( li => li.AListID == id).ToList(); // Sub items
+                result.Items = context.ListItems.Where( li => li.AListID == id).OrderBy(li => li.SortOrder).ToList(); // Sub items
 
                 return result;
             }

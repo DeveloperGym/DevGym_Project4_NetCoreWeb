@@ -6,22 +6,6 @@
 <br />
 <div class="container">
     <table class="table">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Completed</th>
-                <th>-</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var OneItem in Model)
-            {
-            <tr>
-                <td>@OneItem.Title</td>
-                <td>@OneItem.Completed / @OneItem.Total</td>
-                <td><a href='@Url.Action("Show", "List", new { id = OneItem.ID })'>View</a></td>
-            </tr>
-            }
-        </tbody>
+        @Html.Partial("PartialListofLists")
     </table>
 </div>

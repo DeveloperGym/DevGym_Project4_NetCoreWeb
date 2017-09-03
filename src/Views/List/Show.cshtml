@@ -4,4 +4,5 @@
 }
 <div class="container">
     <h2>@Model.Title</h2>
+    <p><a href='@Url.Action("Edit", "List", new { id = Model.ID })'>Edit</a></p>
 </div>

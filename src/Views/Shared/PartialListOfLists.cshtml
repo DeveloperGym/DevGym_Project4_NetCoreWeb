@@ -1,0 +1,20 @@
+@model List<src.Models.AList>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Completed</th>
+                <th>-</th>
+                <th>-</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var OneItem in Model)
+            {
+            <tr>
+                <td><a href='@Url.Action("Show", "List", new { id = OneItem.ID })'>@OneItem.Title</a></td>
+                <td>@OneItem.Completed / @OneItem.Total</td>
+                <td><a href='@Url.Action("Show", "List", new { id = OneItem.ID })'>View</a></td>
+                <td><a href='@Url.Action("Edit", "List", new { id = OneItem.ID })'>Edit</a></td>
+            </tr>
+            }
+        </tbody>

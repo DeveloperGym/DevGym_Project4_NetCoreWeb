@@ -48,8 +48,10 @@ namespace src.DB
                 // Always make sure something is in the database
                 var oneList = new AList() { Title = "Sample List", LastUpdated = DateTime.Now };
                 oneList.Items.Add(new AList.AListItem(){ Description="Learn DotNet Core", SortOrder=0 });
-                oneList.Items.Add(new AList.AListItem(){ Description="Add DateTime to AListItem", SortOrder=1 });
-                oneList.Items.Add(new AList.AListItem(){ Description="Read the blog", SortOrder=2 });
+                oneList.Items.Add(new AList.AListItem(){ Description="Implement List Removal (Hint: ListDbManager.cs)", SortOrder=1 });
+                oneList.Items.Add(new AList.AListItem(){ Description="Add Due Date to AListItem", SortOrder=2 });
+                oneList.Items.Add(new AList.AListItem(){ Description="Add Sorting on Edit page", SortOrder=3 });
+                oneList.Items.Add(new AList.AListItem(){ Description="Read the DeveloperGym blog", SortOrder=4 });
                 context.Lists.Add(oneList);
 
                 context.SaveChanges();
