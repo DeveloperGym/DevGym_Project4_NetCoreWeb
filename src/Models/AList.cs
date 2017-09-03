@@ -16,6 +16,10 @@ namespace src.Models
         public DateTime LastUpdated { get; set; }
 
         public List<AListItem> Items { get; set; }
+
+        public int Total { get; set; }
+
+        public int Completed { get; set; }
         #endregion
 
         #region Constuct / Destruct
@@ -30,10 +34,16 @@ namespace src.Models
         {
             LastUpdated = DateTime.Now;
             
+            Total = 0;
+            Completed = 0;
+
             for (int i=0; i<Items.Count; i++)
             {
                 Items[i].SortOrder = i;
                 Items[i].AListID = ID;
+
+                Total++;
+                if (Items[i].Completed) { Completed++; }
             }
         }
         #endregion

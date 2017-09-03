@@ -12,9 +12,8 @@ namespace src.DB
         {
             using (var context = new ListDbContext())
             {
-                var result = context.Lists.FirstOrDefault(l => l.ID == id);
-
-                result.Items = context.ListItems.Where( li => li.AListID == id).ToList();
+                var result = context.Lists.FirstOrDefault(l => l.ID == id); // Main list info
+                result.Items = context.ListItems.Where( li => li.AListID == id).ToList(); // Sub items
 
                 return result;
             }
@@ -31,8 +30,8 @@ namespace src.DB
                     if (save.ID == 0) { context.Lists.Add(save); }
                     else
                     {
-                        context.Lists.Update(save);
                         ClearListItems(save.ID);
+                        context.Lists.Update(save);
                     }
 
                     context.SaveChanges();
@@ -48,8 +47,18 @@ namespace src.DB
             return false;
         }
 
-        public static bool ClearListItems(int id)
+        public static bool ClearListItems(int aListId)
         {
+            using (var context = new ListDbContext())
+            {
+                try
+                {
+                context.ListItems.RemoveRange(context.ListItems.Where(li => li.AListID == aListId));
+                context.SaveChanges();
+                return true;
+                }
+                catch{}
+            }
             return false;
         }
         #endregion
@@ -59,7 +68,7 @@ namespace src.DB
         {
             using (var context = new ListDbContext())
             {
-                return context.Lists.ToList();
+                return context.Lists.ToList(); // Header info only, for better performance
             }
         }
 
@@ -67,7 +76,7 @@ namespace src.DB
         {
             using (var context = new ListDbContext())
             {
-                return context.Lists.OrderByDescending(l => l.LastUpdated).Take(3).ToList();
+                return context.Lists.OrderByDescending(l => l.LastUpdated).Take(3).ToList(); // Header info only, for better performance
             }
         }
         #endregion

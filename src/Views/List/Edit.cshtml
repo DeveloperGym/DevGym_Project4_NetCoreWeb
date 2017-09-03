@@ -14,16 +14,49 @@
             <input asp-for="Title" /><br />
             <span asp-validation-for="Title" class="text-danger"></span>
             <table class="table">
+                <thead>
+                    <tr>
+                        <th>To Do</th>
+                        <th>X</th>
+                    </tr>
+                </thead>
                 <tbody>
                     @for (int i=0; i<Model.Items.Count; i++)
                     {
-                        <tr>
+                        <tr id="row_@i">
                             <td>@Html.EditorFor(m => m.Items[i].Description) @Html.ValidationMessageFor(m => m.Items[i].Description)</td>
+                            <td><input type="button" onclick="removeAt(@i)" value="X" /></td>
                         </tr>
                     }
                 </tbody>
             </table>
         </fieldset>
         <button type="submit">Save</button>
+        <button type="submit">Cancel</button>
     </form>
 </div>
+
+@section Scripts {
+<script>
+    var nextId = @Model.Items.Count;
+
+    function removeAt(index) {
+        // Remove the indicated row
+        $("#row_" + index).remove();
+
+        // Renumber the other rows
+        // Update the 100 to a larger number to support more items
+        // Or find a better way to detect when you've reached the end
+        for (i = (index+1); i < 100; i++) {
+            if($("#row_" + i).length != 0) {
+                //$("#row_"+i).attr("id", "row_"+(i-1));
+                // Using chaining as suggested by: https://stackoverflow.com/a/2715287
+                $("#Items_"+i+"__Description").attr("id", "Items_"+(i-1)+"__Description").attr("name", "Items["+(i-1)+"].Description")
+            }
+        }
+
+        // id: Items_0__Description
+        // name: Items[0].Description
+    }
+</script>
+}

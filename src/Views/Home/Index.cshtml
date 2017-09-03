@@ -9,6 +9,7 @@
         <thead>
             <tr>
                 <th>Title</th>
+                <th>Completed</th>
                 <th>-</th>
             </tr>
         </thead>
@@ -17,6 +18,7 @@
             {
             <tr>
                 <td>@OneItem.Title</td>
+                <td>@OneItem.Completed / @OneItem.Total</td>
                 <td><a href='@Url.Action("Show", "List", new { id = OneItem.ID })'>View</a></td>
             </tr>
             }

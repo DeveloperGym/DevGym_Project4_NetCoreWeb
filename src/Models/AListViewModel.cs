@@ -19,6 +19,10 @@ namespace src.Models
 
         public List<AListItemViewModel> Items { get; set; }
 
+        public int Total { get; set; }
+
+        public int Completed { get; set; }
+
         public string ErrorMessage{ get; set; }
         #endregion
 
@@ -36,7 +40,9 @@ namespace src.Models
             {
                 ID = from.ID,
                 Title = from.Title,
-                LastUpdated = from.LastUpdated
+                LastUpdated = from.LastUpdated,
+                Total = from.Total,
+                Completed = from.Completed
             };
             from.Items.ForEach(f => result.Items.Add(f));
 
@@ -61,8 +67,6 @@ namespace src.Models
         public class AListItemViewModel
         {
             #region Properties
-            public int ID { get; set; }
-
             [Required]
             [Display(Name="To Do")]
             [MinLength(2, ErrorMessage="You can think of at least 2 characters for the To Do!")]
@@ -77,7 +81,6 @@ namespace src.Models
             {
                 return new AListItemViewModel()
                 {
-                    ID = from.ID,
                     Description = from.Description,
                     Completed = from.Completed
                 };
@@ -87,7 +90,6 @@ namespace src.Models
             {
                 return new AList.AListItem()
                 {
-                    ID = from.ID,
                     Description = from.Description,
                     Completed = from.Completed
                 };

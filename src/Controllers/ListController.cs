@@ -40,6 +40,7 @@ namespace src.Controllers
         {
             if (ModelState.IsValid)
             {
+                int a = model.ID;
             }
 
             return View(model);
