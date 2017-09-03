@@ -5,8 +5,9 @@ using System.Linq;
 //using System.Reflection;
 //using System.Linq.Expressions;
 //using System.IO;
+using src.Models;
 
-namespace src.Models
+namespace src.DB
 {
     public class ListDbContext : DbContext
     {
@@ -18,11 +19,16 @@ namespace src.Models
         public static DbContextOptions<ListDbContext> Options{ get; set; }
         #endregion
 
+        #region Construct / Destruct
+        public ListDbContext() : base(Options) { }
+
         public ListDbContext (DbContextOptions<ListDbContext> options) : base(options)
         {
             Options = options;
         }
+        #endregion
 
+        #region Static Methods
         public static void EnsureCreated(IServiceProvider serviceProvider)
         {
             var context = new ListDbContext(serviceProvider.GetRequiredService<DbContextOptions<ListDbContext>>());
@@ -39,7 +45,7 @@ namespace src.Models
                 }
 
                 // Always make sure something is in the database
-                var oneList = new AList() { Title = "Sample List" };
+                var oneList = new AList() { Title = "Sample List", LastUpdated = DateTime.Now };
                 oneList.Items.Add(new AList.AListItem(){ Description="Learn DotNet Core" });
                 oneList.Items.Add(new AList.AListItem(){ Description="Add DateTime to AListItem" });
                 oneList.Items.Add(new AList.AListItem(){ Description="Read the blog" });
@@ -48,5 +54,6 @@ namespace src.Models
                 context.SaveChanges();
             }
         }
+        #endregion
     }
 }

@@ -13,6 +13,8 @@ namespace src.Models
 
         public string Title { get; set; }
 
+        public DateTime LastUpdated { get; set; }
+
         public List<AListItem> Items { get; set; }
         #endregion
 
@@ -27,6 +29,7 @@ namespace src.Models
         [Table("ListItems")]
         public class AListItem
         {
+            [Key]
             public int ID { get; set; }
 
             public int AListID { get; set; }

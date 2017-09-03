@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using src.DB;
 
 namespace src.Controllers
 {
@@ -10,19 +11,14 @@ namespace src.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            var model = ListDbManager.RecentLists();
+
+            return View(model);
         }
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = "A simple To Do list application, to play around with \"dotnet core\".";
 
             return View();
         }

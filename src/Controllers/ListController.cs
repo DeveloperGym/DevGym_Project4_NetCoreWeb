@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using src.DB;
 using src.Models;
 
 namespace src.Controllers
@@ -9,16 +10,41 @@ namespace src.Controllers
     {
         public IActionResult Index()
         {
-            var model = new ListsViewModel();
+            var model = ListDbManager.AllLists();
 
             return View(model);
         }
 
         public IActionResult Show(int id)
         {
-            var model = new AList();
+            var model = ListDbManager.OneList(id);
 
-            model.Title = "test";
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var model = new AListViewModel();
+            if (id > 0)
+            {
+                model = ListDbManager.OneList(id);
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int id, AListViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.ErrorMessage = "good";
+            }
+            else
+            {
+                model.ErrorMessage = "bad";
+            }
 
             return View(model);
         }

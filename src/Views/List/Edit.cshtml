@@ -1,0 +1,19 @@
+@model src.Models.AListViewModel
+@{
+    ViewData["Title"] = "Edit List: " + Model.Title;
+}
+<div class="container">
+    <h2>@ViewData["Title"]</h2>
+    <p>@Model.ErrorMessage</p>
+</div>
+
+<div class="container">
+    <form asp-action="Edit" method="post">
+        <fieldset>
+            @Html.LabelFor(m => m.Title)
+            <input asp-for="Title" /><br />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </fieldset>
+        <button type="submit">Save</button>
+    </form>
+</div>
