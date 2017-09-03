@@ -13,6 +13,16 @@
             @Html.LabelFor(m => m.Title)
             <input asp-for="Title" /><br />
             <span asp-validation-for="Title" class="text-danger"></span>
+            <table class="table">
+                <tbody>
+                    @for (int i=0; i<Model.Items.Count; i++)
+                    {
+                        <tr>
+                            <td>@Html.EditorFor(m => m.Items[i].Description) @Html.ValidationMessageFor(m => m.Items[i].Description)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </fieldset>
         <button type="submit">Save</button>
     </form>

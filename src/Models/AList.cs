@@ -25,6 +25,18 @@ namespace src.Models
         }
         #endregion
 
+        #region Methods
+        public void PreSave()
+        {
+            LastUpdated = DateTime.Now;
+            
+            for (int i=0; i<Items.Count; i++)
+            {
+                Items[i].SortOrder = i;
+            }
+        }
+        #endregion
+
         #region Sub Classes
         [Table("ListItems")]
         public class AListItem
@@ -37,6 +49,8 @@ namespace src.Models
             public string Description { get; set; }
 
             public bool Completed { get; set; }
+
+            public int SortOrder{ get; set; }
         }
         #endregion
     }

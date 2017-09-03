@@ -11,8 +11,29 @@ namespace src.DB
         {
             using (var context = new ListDbContext())
             {
-                return context.Lists.FirstOrDefault(l => l.ID == id);
+                var result = context.Lists.FirstOrDefault(l => l.ID == id);
+
+                result.Items = context.ListItems.Where( li => li.AListID == id).ToList();
+
+                return result;
             }
+        }
+
+        public static bool SaveList(AList save)
+        {
+            using (var context = new ListDbContext())
+            {
+                try
+                {
+                    save.PreSave();
+                    if (save.ID == 0) { context.Lists.Add(save); }
+                    else { context.Lists.Update(save); }
+                    context.SaveChanges();
+                    return true;
+                }
+                catch {}
+            }
+            return false;
         }
 
         public static List<AList> AllLists()

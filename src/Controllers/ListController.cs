@@ -29,6 +29,7 @@ namespace src.Controllers
             if (id > 0)
             {
                 model = ListDbManager.OneList(id);
+                model.ErrorMessage = "Item Count: "+model.Items.Count;
             }
 
             return View(model);
@@ -39,11 +40,6 @@ namespace src.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.ErrorMessage = "good";
-            }
-            else
-            {
-                model.ErrorMessage = "bad";
             }
 
             return View(model);

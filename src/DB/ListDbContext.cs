@@ -13,6 +13,7 @@ namespace src.DB
     {
         #region DbSets
         public DbSet<AList> Lists { get; set; }
+        public DbSet<AList.AListItem> ListItems { get; set; }
         #endregion
 
         #region Properties
@@ -46,9 +47,9 @@ namespace src.DB
 
                 // Always make sure something is in the database
                 var oneList = new AList() { Title = "Sample List", LastUpdated = DateTime.Now };
-                oneList.Items.Add(new AList.AListItem(){ Description="Learn DotNet Core" });
-                oneList.Items.Add(new AList.AListItem(){ Description="Add DateTime to AListItem" });
-                oneList.Items.Add(new AList.AListItem(){ Description="Read the blog" });
+                oneList.Items.Add(new AList.AListItem(){ Description="Learn DotNet Core", SortOrder=0 });
+                oneList.Items.Add(new AList.AListItem(){ Description="Add DateTime to AListItem", SortOrder=1 });
+                oneList.Items.Add(new AList.AListItem(){ Description="Read the blog", SortOrder=2 });
                 context.Lists.Add(oneList);
 
                 context.SaveChanges();
